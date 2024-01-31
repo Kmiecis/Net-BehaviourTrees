@@ -5,4 +5,8 @@
     <RootNamespace>Common.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(OutDir)$(AssemblyName).dll $(ProjectDir)$(Configuration).dll" />
+  </Target>
+
 </Project>
