@@ -17,9 +17,9 @@
         
         protected override BT_EStatus OnUpdate()
         {
-            for (; _current < _tasks.Length; ++_current)
+            for (; _current < _children.Length; ++_current)
             {
-                var result = _tasks[_current].Update();
+                var result = _children[_current].Update();
 
                 if (result != BT_EStatus.Failure)
                 {

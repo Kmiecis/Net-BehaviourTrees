@@ -5,29 +5,29 @@
     /// </summary>
     public abstract class BT_ANode : BT_ATask, BT_INode
     {
-        protected BT_ITask[] _tasks;
+        protected BT_ITask[] _children;
         protected int _current;
 
-        public BT_ITask[] Tasks
-            => _tasks;
+        public BT_ITask[] Children
+            => _children;
 
         public BT_ITask Current
-            => _tasks[_current];
+            => _children[_current];
 
         public BT_ANode(string name = null) :
             base(name)
         {
         }
 
-        public BT_ANode WithTask(BT_ITask task)
+        public BT_ANode WithChild(BT_ITask child)
         {
-            _tasks = new BT_ITask[] { task };
+            _children = new BT_ITask[] { child };
             return this;
         }
 
-        public BT_ANode WithTasks(params BT_ITask[] tasks)
+        public BT_ANode WithChildren(params BT_ITask[] children)
         {
-            _tasks = tasks;
+            _children = children;
             return this;
         }
         
@@ -38,16 +38,16 @@
 
         protected override void OnFinish()
         {
-            AbortTasks();
+            AbortChildren();
         }
 
-        protected void AbortTasks()
+        protected void AbortChildren()
         {
-            if (_tasks != null)
+            if (_children != null)
             {
-                for (int i = 0; i < _tasks.Length; ++i)
+                for (int i = 0; i < _children.Length; ++i)
                 {
-                    _tasks[i].Abort();
+                    _children[i].Abort();
                 }
             }
         }

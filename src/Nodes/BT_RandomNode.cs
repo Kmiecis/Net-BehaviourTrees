@@ -27,14 +27,14 @@ namespace Common.BehaviourTrees
         
         protected override void OnStart()
         {
-            _current = _random.Next(0, _tasks.Length);
+            _current = _random.Next(0, _children.Length);
         }
 
         protected override BT_EStatus OnUpdate()
         {
-            if (_current < _tasks.Length)
+            if (_current < _children.Length)
             {
-                var current = _tasks[_current];
+                var current = _children[_current];
                 return current.Update();
             }
 

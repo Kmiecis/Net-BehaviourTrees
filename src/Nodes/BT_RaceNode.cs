@@ -5,7 +5,7 @@
     /// </summary>
     public sealed class BT_RaceNode : BT_ANode
     {
-        private bool _ran;
+        private ulong _done;
 
         public BT_RaceNode() :
             this("Race")
@@ -21,30 +21,26 @@
         {
             base.OnStart();
 
-            _ran = false;
+            _done = 0U;
         }
 
         protected override BT_EStatus OnUpdate()
         {
             var status = BT_EStatus.Failure;
 
-            for (int i = _current; i < _tasks.Length; ++i)
+            for (int i = _current; i < _children.Length; ++i)
             {
-                var current = _tasks[i];
-                if (
-                    current.Status == BT_EStatus.Running ||
-                    !_ran
-                )
+                if (!IsDone(i))
                 {
-                    var result = current.Update();
+                    var current = _children[i];
 
+                    var result = current.Update();
                     switch (result)
                     {
                         case BT_EStatus.Failure:
+                            MarkDone(i);
                             if (_current == i)
-                            {
                                 _current += 1;
-                            }
                             break;
 
                         case BT_EStatus.Success:
@@ -53,17 +49,25 @@
 
                         case BT_EStatus.Running:
                             if (status != BT_EStatus.Success)
-                            {
                                 status = BT_EStatus.Running;
-                            }
                             break;
                     }
                 }
             }
 
-            _ran = true;
-
             return status;
+        }
+
+        private bool IsDone(int index)
+        {
+            var bit = 1U << index;
+            return (_done & bit) == bit;
+        }
+
+        private void MarkDone(int index)
+        {
+            var bit = 1U << index;
+            _done |= bit;
         }
     }
 }
