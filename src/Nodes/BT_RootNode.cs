@@ -17,7 +17,13 @@
 
         protected override BT_EStatus OnUpdate()
         {
-            return Current.Update();
+            if (_current < _tasks.Length)
+            {
+                var current = _tasks[_current];
+                return current.Update();
+            }
+
+            return BT_EStatus.Failure;
         }
     }
 }

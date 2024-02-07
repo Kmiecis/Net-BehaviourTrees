@@ -29,19 +29,21 @@ namespace Common.BehaviourTrees
         #endregion
 
         #region Random
-        public static float NextFloat(this Random self)
+        public static long NextLong(this Random self, long min, long max)
         {
-            return (float)self.NextDouble();
+            var value = self.NextDouble();
+            var range = (ulong)(max - min);
+            return (long)(value * range + min);
         }
 
-        public static float NextFloat(this Random self, float max)
+        public static long NextLong(this Random self, long max)
         {
-            return self.NextFloat() * max;
+            return self.NextLong(long.MinValue, max);
         }
 
-        public static float NextFloat(this Random self, float min, float max)
+        public static long NextLong(this Random self)
         {
-            return min + self.NextFloat() * (max - min);
+            return self.NextLong(long.MaxValue);
         }
         #endregion
 

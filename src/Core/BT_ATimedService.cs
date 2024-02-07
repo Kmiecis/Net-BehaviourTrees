@@ -5,14 +5,14 @@
     /// </summary>
     public abstract class BT_ATimedService : BT_AService
     {
-        protected readonly float _delay;
+        protected readonly long _delay;
 
-        protected float _timestamp;
+        protected long _timestamp;
 
         public BT_ATimedService(float delay = 0.25f, string name = "Timed") :
             base(name)
         {
-            _delay = delay;
+            _delay = UTime.ToTicks(delay);
         }
 
         public override void Update()

@@ -32,8 +32,13 @@ namespace Common.BehaviourTrees
 
         protected override BT_EStatus OnUpdate()
         {
-            var current = Current;
-            return current.Update();
+            if (_current < _tasks.Length)
+            {
+                var current = _tasks[_current];
+                return current.Update();
+            }
+
+            return BT_EStatus.Failure;
         }
     }
 }

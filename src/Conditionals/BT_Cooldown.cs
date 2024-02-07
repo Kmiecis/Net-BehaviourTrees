@@ -7,21 +7,21 @@ namespace Common.BehaviourTrees
     /// </summary>
     public sealed class BT_Cooldown : BT_AConditional
     {
-        private readonly float _cooldown;
-        private readonly float _deviation;
+        private readonly long _cooldown;
+        private readonly long _deviation;
         private readonly Random _random;
 
-        private float _timestamp;
+        private long _timestamp;
 
         public BT_Cooldown(float cooldown, float deviation = 0.0f, Random random = null) :
             base("Cooldown")
         {
-            _cooldown = cooldown;
-            _deviation = deviation;
+            _cooldown = UTime.ToTicks(cooldown);
+            _deviation = UTime.ToTicks(deviation);
             _random = random ?? new Random();
         }
 
-        public float Remaining
+        public long Remaining
         {
             get => _timestamp - UTime.UtcNow;
             set => _timestamp = UTime.UtcNow + value;
@@ -29,17 +29,17 @@ namespace Common.BehaviourTrees
 
         public override bool CanExecute()
         {
-            return Remaining <= 0.0f;
+            return Remaining <= 0L;
         }
 
         protected override void OnFinish(BT_EStatus result)
         {
-            Remaining = _cooldown + _random.NextFloat(-_deviation, +_deviation);
+            Remaining = _cooldown + _random.NextLong(-_deviation, +_deviation);
         }
 
         public override string ToString()
         {
-            var remaining = Math.Max(Remaining, 0.0f).ToString("F1");
+            var remaining = Math.Max(UTime.ToSeconds(Remaining), 0.0f).ToString("F1");
             return base.ToString() + " [" + remaining + ']';
         }
     }
