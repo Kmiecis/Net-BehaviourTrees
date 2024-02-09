@@ -108,9 +108,9 @@
         {
             if (_status == BT_EStatus.Running)
             {
-                _status = BT_EStatus.Failure;
-
                 Finish();
+
+                _status = BT_EStatus.Failure;
             }
         }
 
