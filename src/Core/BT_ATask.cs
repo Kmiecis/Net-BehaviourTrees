@@ -104,10 +104,16 @@
         {
         }
 
+        protected virtual void OnAbort()
+        {
+        }
+
         public void Abort()
         {
             if (_status == BT_EStatus.Running)
             {
+                OnAbort();
+
                 Finish();
 
                 _status = BT_EStatus.Failure;
