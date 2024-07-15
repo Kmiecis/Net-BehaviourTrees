@@ -8,7 +8,7 @@ On the surface, it closely resembles UE Behaviour Trees implementation, but unde
 ## Installation
 
 Git add this repository as a submodule inside your project:  
-`git submodule add https://github.com/Kmiecis/Common-BehaviourTrees`
+`git submodule add https://github.com/Kmiecis/Net-BehaviourTrees`
 
 ## Examples
 
